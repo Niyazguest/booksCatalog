@@ -21,8 +21,8 @@ public class Book {
     private String isbn;
     private String pagesCount;
     private String decor;
-    private Double weight;
-    private String size;
+    private String weight;
+    private String dimensions;
     private String annotation;
     private String coverImgUrl;
     private List<Comment> comments;
@@ -120,21 +120,21 @@ public class Book {
     }
 
     @Column(name = "weight")
-    public Double getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
     @Column(name = "size")
-    public String getSize() {
-        return size;
+    public String getDimensions() {
+        return dimensions;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setDimensions(String dimensions) {
+        this.dimensions = dimensions;
     }
 
     @Column(name = "annotation")
