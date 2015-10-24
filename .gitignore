@@ -1,0 +1,6 @@
+*.war
+*.iml
+.idea/**
+lib/**
+target/**
+out/**
