@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -12,12 +13,13 @@
           http://www.springframework.org/schema/context
           http://www.springframework.org/schema/context/spring-context-4.2.xsd
           http://www.springframework.org/schema/tx
-          http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+          http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+          http://www.springframework.org/schema/task
+          http://www.springframework.org/schema/task/spring-task.xsd">
 
     <context:annotation-config/>
     <context:component-scan base-package="ru.niyaz.test.serivce"/>
     <context:component-scan base-package="ru.niyaz.test.dao"/>
-    <context:component-scan base-package="ru.niyaz.test.security"/>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
@@ -27,5 +29,8 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <task:scheduler id="taskScheduler" pool-size="5"/>
+    <task:annotation-driven scheduler="taskScheduler"/>
 
 </beans>

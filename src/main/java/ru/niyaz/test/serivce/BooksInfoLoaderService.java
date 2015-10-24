@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * Created by user on 24.10.15.
@@ -34,6 +35,7 @@ public class BooksInfoLoaderService {
     @Autowired
     private BookDao bookDao;
 
+    @Scheduled(fixedRate = 900000)
     public void loadBooksInfo() {
         int booksListPageNumber = 1;
         while (true) {
