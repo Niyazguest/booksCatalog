@@ -71,8 +71,8 @@ public class Comment {
 /*
 CREATE TABLE comment (
    comment_id BIGINT PRIMARY KEY IDENTITY,
-   author CHARACTER VARYING(50),
+   author CHARACTER VARYING(100),
    date DATE,
-   comment CHARACTER VARYING(3000)
+   comment CHARACTER VARYING(5000)
 )
  */

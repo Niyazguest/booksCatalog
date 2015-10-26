@@ -1,7 +1,4 @@
 <%@ page import="java.util.List" %>
-<%@ page import="ru.niyaz.test.entity.Tasks" %>
-<%@ page import="ru.niyaz.test.entity.Priority" %>
-<%@ page import="ru.niyaz.test.entity.Type" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="true" contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
 <html>

@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.springframework.scheduling.annotation.Scheduled;
 
 /**
@@ -35,7 +36,7 @@ public class BooksInfoLoaderService {
     @Autowired
     private BookDao bookDao;
 
-    @Scheduled(fixedRate = 900000)
+    //   @Scheduled(fixedRate = 900000)
     public void loadBooksInfo() {
         int booksListPageNumber = 1;
         while (true) {
@@ -58,9 +59,9 @@ public class BooksInfoLoaderService {
         }
     }
 
-    public Book bookInfo(Element bookIcon) {
+    protected Book bookInfo(Element bookIcon) {
         Document document = null;
-        String productId = bookIcon.getElementById("product-info").attr("data-product-id");
+        String productId = bookIcon.attr("data-product-id");
         try {
             URL url = new URL("http://www.labirint.ru/books/" + productId);
             document = Jsoup.parse(url, 5000);
@@ -80,9 +81,9 @@ public class BooksInfoLoaderService {
         try {
             String name;
             name = bookElement.getElementById("product-title").getElementsByTag("h1").text().trim();
-            book.setName(name);
+            book.setName((name.length() <= 150) ? name : name.substring(0, 149));
         } catch (Exception ex) {
-            return null;
+            book.setName("");
         }
 
         try {
@@ -107,10 +108,11 @@ public class BooksInfoLoaderService {
                         editor = strs[0].replaceAll("\"", "").trim();
                 }
             }
-            book.setAuthor(author);
-            book.setEditor(editor);
+            book.setAuthor((author.length() <= 100) ? author : author.substring(0, 99));
+            book.setEditor((editor.length() <= 100) ? editor : editor.substring(0, 99));
         } catch (Exception ex) {
-            return null;
+            book.setAuthor("");
+            book.setEditor("");
         }
 
         try {
@@ -121,16 +123,19 @@ public class BooksInfoLoaderService {
                 publisherAndYear = strs[1].replaceAll("\"", "").trim();
             else
                 publisherAndYear = strs[0].replaceAll("\"", "").trim();
-            book.setPublisherAndYear(publisherAndYear);
+            book.setPublisherAndYear((publisherAndYear.length() <= 200) ? publisherAndYear : publisherAndYear.substring(0, 199));
         } catch (Exception ex) {
-            return null;
+            book.setPublisherAndYear("");
         }
 
         try {
-            str = bookElement.getElementById("product-specs").getElementsByClass("buying-pricenew-val-number").get(0).text();
-            book.setPrice(Double.parseDouble(str));
+            if (bookElement.getElementById("product-specs").getElementsByClass("buying-pricenew-val-number").size() > 0)
+                str = bookElement.getElementById("product-specs").getElementsByClass("buying-pricenew-val-number").get(0).text();
+            else
+                str = bookElement.getElementById("product-specs").getElementsByClass("buying-price-val-number").get(0).text();
+            book.setPrice(Double.parseDouble(str.length() <= 10 ? str : str.substring(0, 9)));
         } catch (Exception ex) {
-            return null;
+            book.setPrice(null);
         }
 
         try {
@@ -141,9 +146,9 @@ public class BooksInfoLoaderService {
                 isbn = strs[1].replaceAll("\"", "").trim();
             else
                 isbn = strs[0].replaceAll("\"", "").trim();
-            book.setIsbn(isbn);
+            book.setIsbn((isbn.length() <= 20) ? isbn : isbn.substring(0, 19));
         } catch (Exception ex) {
-            return null;
+            book.setIsbn("");
         }
 
         try {
@@ -154,21 +159,17 @@ public class BooksInfoLoaderService {
                 pagesCount = strs[1].replaceAll("\"", "").trim();
             else
                 pagesCount = strs[0].replaceAll("\"", "").trim();
-            book.setPagesCount(pagesCount);
+            book.setPagesCount((pagesCount.length() <= 30) ? pagesCount : pagesCount.substring(0, 29));
         } catch (Exception ex) {
-            return null;
+            book.setPagesCount("");
         }
 
         try {
             String decor = "";
-            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("http://www.labirint.ru/ajax/design/" + productId).openConnection();
-            httpURLConnection.getResponseCode();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-            while ((str = bufferedReader.readLine()) != null)
-                decor = decor + str;
-            book.setPagesCount(decor);
+            Document decorHtml = Jsoup.parse(new URL("http://www.labirint.ru/ajax/design/" + productId), 5000);
+            book.setDecor((decorHtml.text().length() <= 400) ? decorHtml.text() : decorHtml.text().substring(0, 399));
         } catch (Exception ex) {
-            return null;
+            book.setDecor("");
         }
 
         try {
@@ -179,9 +180,9 @@ public class BooksInfoLoaderService {
                 weight = strs[1].replaceAll("\"", "").trim();
             else
                 weight = strs[0].replaceAll("\"", "").trim();
-            book.setWeight(weight);
+            book.setWeight((weight.length() <= 20) ? weight : weight.substring(0, 19));
         } catch (Exception ex) {
-            return null;
+            book.setWeight("");
         }
 
         try {
@@ -192,36 +193,68 @@ public class BooksInfoLoaderService {
                 dimensions = strs[1].replaceAll("\"", "").trim();
             else
                 dimensions = strs[0].replaceAll("\"", "").trim();
-            book.setDimensions(dimensions);
+            book.setDimensions((dimensions.length() <= 30) ? dimensions : dimensions.substring(0, 29));
         } catch (Exception ex) {
-            return null;
+            book.setDimensions("");
         }
 
         try {
-            book.setAnnotation(bookElement.getElementById("fullannotation").text());
+            if (bookElement.getElementById("fullannotation") != null)
+                book.setAnnotation((bookElement.getElementById("fullannotation").text().length() <= 2000) ? bookElement.getElementById("fullannotation").text() : bookElement.getElementById("fullannotation").text().substring(0, 1999));
+            else if (bookElement.getElementById("product-about") != null)
+                book.setAnnotation((bookElement.getElementById("product-about").text().length() <= 2000) ? bookElement.getElementById("product-about").text() : bookElement.getElementById("product-about").text().substring(0, 1999));
+            else
+                book.setAnnotation((bookElement.getElementById("smallannotation").text().length() <= 2000) ? bookElement.getElementById("smallannotation").text() : bookElement.getElementById("smallannotation").text().substring(0, 1999));
+
         } catch (Exception ex) {
-            return null;
+            book.setAnnotation("");
         }
 
+        if (document.getElementById("product-comments") != null)
+            book.setComments(parseComments(document.getElementById("product-comments"), book));
+
+        return book;
+    }
+
+    private List<Comment> parseComments(Element commentsElement, Book book) {
         List<Comment> comments = new ArrayList<Comment>();
-        Elements elements = bookElement.getElementById("product-comments").getElementsByClass("product-comment");
+        Elements elements = commentsElement.getElementsByClass("product-comment");
         Iterator<Element> iterator = elements.iterator();
+        String str = "";
         while (iterator.hasNext()) {
             Comment comment = new Comment();
             Element element = iterator.next();
-            comment.setAuthor(element.getElementsByClass("comment-user-avatar").get(0).getElementsByTag("a").get(0).attr("title"));
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.mm.yyyy HH:mm:ss");
-            str = element.getElementsByClass("comment-footer").get(0).getElementsByClass("date").get(0).text().trim();
             try {
+                str = element.getElementsByClass("comment-user-avatar").get(0).getElementsByTag("a").get(0).attr("title");
+                comment.setAuthor((str.length() <= 100) ? str : str.substring(0, 99));
+            } catch (Exception ex) {
+                comment.setAuthor("");
+            }
+
+            try {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.mm.yyyy HH:mm:ss");
+                str = element.getElementsByClass("comment-footer").get(0).getElementsByClass("date").get(0).text().trim();
                 comment.setDate(new Date(simpleDateFormat.parse(str).getTime()));
-            } catch (ParseException ex) {
+            } catch (Exception ex) {
                 comment.setDate(null);
             }
-            comment.setComment(element.getElementsByAttributeValueContaining("id", "fullcomment").get(0).text());
+            try {
+                if (element.getElementsByAttributeValueContaining("id", "fullcomment").size() > 0) {
+                    str = element.getElementsByAttributeValueContaining("id", "fullcomment").get(0).text();
+                    comment.setComment((str.length() <= 5000) ? str : str.substring(0, 4999));
+                } else if (element.getElementsByClass("comment-text").size() > 0) {
+                    str = element.getElementsByClass("comment-text").get(0).text();
+                    comment.setComment((str.length() <= 5000) ? str : str.substring(0, 4999));
+                } else {
+                    str = element.getElementsByAttributeValueContaining("id", "shortcomment").get(0).text();
+                    comment.setComment((str.length() <= 5000) ? str : str.substring(0, 4999));
+                }
+            } catch (Exception ex) {
+                comment.setComment("");
+            }
             comment.setBook(book);
             comments.add(comment);
         }
-        book.setComments(comments);
-        return book;
+        return comments;
     }
 }

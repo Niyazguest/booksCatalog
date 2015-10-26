@@ -128,7 +128,7 @@ public class Book {
         this.weight = weight;
     }
 
-    @Column(name = "size")
+    @Column(name = "dimensions")
     public String getDimensions() {
         return dimensions;
     }
@@ -173,16 +173,16 @@ public class Book {
 CREATE TABLE book (
         book_id INTEGER PRIMARY KEY IDENTITY,
         product_id INTEGER,
-        name CHARACTER VARYING(100),
-        author CHARACTER VARYING(50),
-        editor CHARACTER VARYING(50),
-        publisher CHARACTER VARYING(100),
+        name CHARACTER VARYING(150),
+        author CHARACTER VARYING(100),
+        editor CHARACTER VARYING(100),
+        publisher CHARACTER VARYING(200),
         price DOUBLE,
         isbn CHARACTER VARYING(20),
-        pages_count SMALLINT,
-        decor CHARACTER VARYING(200),
-        weight DOUBLE,
-        size CHARACTER VARYING(20),
+        pages_count CHARACTER VARYING(30),
+        decor CHARACTER VARYING(400),
+        weight CHARACTER VARYING(20),
+        dimensions CHARACTER VARYING(30),
         annotation CHARACTER VARYING(2000),
         cover_image_url CHARACTER VARYING(200)
         )

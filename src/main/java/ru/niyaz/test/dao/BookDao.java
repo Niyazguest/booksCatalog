@@ -24,3 +24,5 @@ public class BookDao {
         session.saveOrUpdate(book);
     }
 }
+
+
