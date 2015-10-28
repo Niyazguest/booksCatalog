@@ -187,4 +187,16 @@ CREATE TABLE book (
         cover_image_url CHARACTER VARYING(200)
         )
 
+        alter table book alter column name CHARACTER VARYING(300),
+        alter table book alter column  author CHARACTER VARYING(200),
+        alter table book alter column  editor CHARACTER VARYING(200),
+        alter table book alter column  publisher CHARACTER VARYING(500),
+        alter table book alter column  isbn CHARACTER VARYING(100),
+        alter table book alter column  pages_count CHARACTER VARYING(60),
+        alter table book alter column   decor CHARACTER VARYING(800),
+        alter table book alter column   weight CHARACTER VARYING(40),
+        alter table book alter column   dimensions CHARACTER VARYING(60),
+        alter table book alter column   annotation CHARACTER VARYING(5000),
+        alter table book alter column   cover_image_url CHARACTER VARYING(400)
+
 */

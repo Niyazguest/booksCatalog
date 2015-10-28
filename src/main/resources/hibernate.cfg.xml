@@ -4,11 +4,11 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.url">jdbc:hsqldb:file:classpath:booksDb/books</property>
+        <property name="hibernate.connection.url">jdbc:hsqldb:file:C:\Users\user\Documents\bookCatalog\src\main\webapp\WEB-INF\db\booksDb\books;shutdown=true;hsqldb.write_delay_millis=0</property>
         <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
         <property name="hibernate.connection.username">books</property>
         <property name="hibernate.connection.password">books</property>
-        <property name="hibernate.hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.c3p0.min_size">5</property>
         <property name="hibernate.c3p0.max_size">20</property>
@@ -19,3 +19,6 @@
         <mapping class="ru.niyaz.test.entity.Comment"/>
     </session-factory>
 </hibernate-configuration>
+
+
+

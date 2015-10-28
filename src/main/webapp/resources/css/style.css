@@ -59,7 +59,7 @@ label.checkbox {
     text-align: center;
 }
 
-.addBtn {
+.pagesNum {
     margin-left: 10px;
 }
 
@@ -76,7 +76,7 @@ td {
     width: 80%;
 }
 
-.cor {
+.look {
     width: 100px;
     margin: 5px;
 }
@@ -84,4 +84,17 @@ td {
 .del {
     width: 100px;
     margin: 5px;
+}
+
+.searchFormElem {
+    width: 120%;
+    height: 5%;
+}
+
+.searchFormInput {
+    margin: 10%;
+}
+
+.bookInfoTextLine {
+    height: 5%;
 }

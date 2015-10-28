@@ -1,5 +1,6 @@
 package ru.niyaz.test.serivce;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -36,7 +37,7 @@ public class BooksInfoLoaderService {
     @Autowired
     private BookDao bookDao;
 
-    //   @Scheduled(fixedRate = 900000)
+    @Scheduled(fixedDelay = 900000)
     public void loadBooksInfo() {
         int booksListPageNumber = 1;
         while (true) {
@@ -54,7 +55,12 @@ public class BooksInfoLoaderService {
                 break;
             Iterator<Element> iterator = elements.iterator();
             while (iterator.hasNext()) {
-                bookDao.saveBook(bookInfo(iterator.next()));
+                try {
+                    bookDao.saveBook(bookInfo(iterator.next()));
+                } catch (Exception ex) {
+                    if (ex instanceof ConstraintViolationException)
+                        continue;
+                }
             }
         }
     }
@@ -210,6 +216,14 @@ public class BooksInfoLoaderService {
             book.setAnnotation("");
         }
 
+        try {
+            String imageUrl = "";
+            imageUrl = bookElement.getElementById("product-image").getElementsByTag("img").get(0).attr("src");
+            book.setCoverImgUrl(imageUrl);
+        } catch (Exception ex) {
+            book.setCoverImgUrl("");
+        }
+
         if (document.getElementById("product-comments") != null)
             book.setComments(parseComments(document.getElementById("product-comments"), book));
 
@@ -256,5 +270,13 @@ public class BooksInfoLoaderService {
             comments.add(comment);
         }
         return comments;
+    }
+
+    public List<Book> loadAllBooks(int pageNum) {
+        return bookDao.getAllBooks(pageNum);
+    }
+
+    public Long getBooksCount() {
+        return bookDao.getBooksCount();
     }
 }
