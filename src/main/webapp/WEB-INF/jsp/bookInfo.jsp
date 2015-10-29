@@ -14,31 +14,73 @@
     <% ServletContext servletContext = request.getSession().getServletContext(); %>
 </head>
 <body>
-<div class="container">
-    <div style="width: 105%; margin-left: -2.5%;">
+<div style="text-align: center; font: bold 250% normal; color: #1A9FBF;
+    font-family: arial, tahoma, helvetica, sans-serif;">Информация о книге</div>
+<div class="container" style="margin-top: 5%;">
+    <div style="height: 50%; width: 20%;"><img style="height: 100%; width: 100%;" src="${coverImgUrl}"></div>
+    <div id="bookInfo" data-productId="${productId}">
         <div class="table-responsive">
             <table class="table table-striped table-bordered tableBody">
                 <tbody>
-                <tr>
-                    <td style="height: 50%; width: 50%;"></td>
-                    <td style="height: 50%; width: 50%;">
-                <tr class="bookInfoTextLine"></tr>
-                <tr class="bookInfoTextLine"></tr>
-                <tr class="bookInfoTextLine"></tr>
-                <tr class="bookInfoTextLine"></tr>
-                <tr class="bookInfoTextLine"></tr>
-                <tr class="bookInfoTextLine"></tr>
-                <tr class="bookInfoTextLine"></tr>
-                <tr class="bookInfoTextLine"></tr>
-                <tr class="bookInfoTextLine"></tr>
-                <tr class="bookInfoTextLine"></tr>
-                <tr class="bookInfoTextLine"></tr>
-                <tr class="bookInfoTextLine"></tr>
-                </td>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">Название</td>
+                    <td class="bookPropertyValue">${bookName}</td>
+                </tr>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">ID товара</td>
+                    <td class="bookPropertyValue">${productId}</td>
+                </tr>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">Автор</td>
+                    <td class="bookPropertyValue">${author}</td>
+                </tr>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">Редактор</td>
+                    <td class="bookPropertyValue">${editor}</td>
+                </tr>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">Издательство</td>
+                    <td class="bookPropertyValue">${publisherAndYear}</td>
+                </tr>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">Цена</td>
+                    <td class="bookPropertyValue">${price}</td>
+                </tr>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">ISBN</td>
+                    <td class="bookPropertyValue">${isbn}</td>
+                </tr>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">Страниц</td>
+                    <td class="bookPropertyValue">${pagesCount}</td>
+                </tr>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">Описание</td>
+                    <td class="bookPropertyValue">${decor}</td>
+                </tr>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">Масса</td>
+                    <td class="bookPropertyValue">${weight}</td>
+                </tr>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">Размеры</td>
+                    <td class="bookPropertyValue">${dimensions}</td>
+                </tr>
+                <tr class="bookInfoTextLine">
+                    <td class="bookProperty">Аннотация</td>
+                    <td class="bookPropertyValue">${annotation}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
+    </div>
+    <div><button id="commentsLoadButton" class="btn btn-info btn-lg" onclick="loadComments()">Комментарии</button></div>
+    <div id="comments">
+        <table class="table table-striped table-bordered tableBody">
+            <tbody id="commentTable">
+
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

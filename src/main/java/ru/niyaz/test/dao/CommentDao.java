@@ -1,5 +1,6 @@
 package ru.niyaz.test.dao;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +18,21 @@ import java.util.List;
 public class CommentDao {
 
     @Autowired
+    private BookDao bookDao;
+
+    @Autowired
     private SessionFactory sessionFactory;
 
-    public List<Comment> getComments(Book book) {
-        Session session = null;
+    public List<Comment> loadComments(Integer productId) {
         List<Comment> comments = null;
         try {
-            session = sessionFactory.openSession();
-            Book bookObject = (Book) session.merge(book);
+            Book book = bookDao.getBookByProductId(productId);
+            Session session = sessionFactory.openSession();
+            book = (Book) session.merge(book);
             comments = book.getComments();
+            session.close();
         } catch (Exception ex) {
-            return null;
-        } finally {
-            if (session != null)
-                session.close();
+            ex.getMessage();
         }
         return comments;
     }

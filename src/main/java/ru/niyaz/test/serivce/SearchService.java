@@ -28,9 +28,11 @@ public class SearchService {
             books = bookDao.getBooksByBookName(text);
         if (criteriaName.equals("annotation"))
             books = bookDao.getBooksByAnnotation(text);
+        if (books == null)
+            return null;
         bookRows = new ArrayList<BookListRow>();
         for (Book book : books) {
-            BookListRow bookListRow = new BookListRow(book.getProductId().toString(), book.getAuthor(), book.getName(), book.getPrice().toString(), book.getPublisherAndYear());
+            BookListRow bookListRow = new BookListRow(book.getProductId().toString(), book.getAuthor(), book.getName(), book.getPublisherAndYear(), book.getPrice().toString());
             bookRows.add(bookListRow);
         }
         return bookRows;

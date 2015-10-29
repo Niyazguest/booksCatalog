@@ -50,7 +50,7 @@ public class BookDao {
         return books;
     }
 
-    public Book getBookByProductId(Long productId) {
+    public Book getBookByProductId(Integer productId) {
         Book book = null;
         Session session = null;
         try {

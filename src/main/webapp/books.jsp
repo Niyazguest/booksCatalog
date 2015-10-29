@@ -40,7 +40,8 @@
             <div style="margin-left: 20%; width: 50%; margin-top: 1%;" class="input-group">
                 <input id="bookFindText" type="text" class="form-control">
                     <span class="input-group-btn">
-                        <button id="bookFindButton" class="btn btn-default" type="button" onclick="searchBook()">Поиск</button>
+                        <button id="bookFindButton" class="btn btn-default" type="button" onclick="searchBook()">Поиск
+                        </button>
                     </span>
             </div>
             </form>
@@ -84,7 +85,7 @@
                         out.println("<td style=\"height:100px; width:20%;\">" + book.getAuthor().replace("<", "").replace(">", "") + "</td>");
                         out.println("<td style=\"height:100px; width:10%;\">" + book.getPublisherAndYear().replace("<", "").replace(">", "") + "</td>");
                         out.println("<td style=\"height:100px; width:7%;\">" + book.getPrice().toString().replace("<", "").replace(">", "") + "</td>");
-                        out.println("<td style=\"height:100px; width:10%;\"><button type=\"button\" class=\"btn btn-info btn-sm look\">Просмотр</button>" + "</td>");
+                        out.println("<td style=\"height:100px; width:10%;\"><button type=\"button\" class=\"btn btn-info btn-sm look\" data-productId=\"" + book.getProductId().toString() + "\" onclick=\"loadBookInfo(this)\">Просмотр</button>" + "</td>");
                         out.println("</tr>");
                     }
                 %>

@@ -29,7 +29,7 @@ public class SearchController {
                                     @RequestParam(value = "criteriaValue") String criteriaValue,
                                     HttpServletRequest request, HttpServletResponse response) {
         List<BookListRow> books = null;
-        if (criteriaValue.length() > 3) {
+        if (criteriaValue.length() >= 3) {
             try {
                 books = searchService.searchBooksByCriteria(criteriaName, criteriaValue);
                 response.addHeader("ResultStatus", "OK");

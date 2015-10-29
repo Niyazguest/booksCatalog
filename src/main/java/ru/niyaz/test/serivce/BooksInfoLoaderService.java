@@ -37,7 +37,7 @@ public class BooksInfoLoaderService {
     @Autowired
     private BookDao bookDao;
 
-    @Scheduled(fixedDelay = 900000)
+    @Scheduled(fixedDelay = 10900000)
     public void loadBooksInfo() {
         int booksListPageNumber = 1;
         while (true) {
@@ -218,7 +218,10 @@ public class BooksInfoLoaderService {
 
         try {
             String imageUrl = "";
-            imageUrl = bookElement.getElementById("product-image").getElementsByTag("img").get(0).attr("src");
+            if (document.getElementsByAttributeValue("property", "og:image") != null)
+                imageUrl = document.getElementsByAttributeValue("property", "og:image").get(0).attr("content");
+            else
+                imageUrl = "http://img.labirint.ru/design/emptycover.png";
             book.setCoverImgUrl(imageUrl);
         } catch (Exception ex) {
             book.setCoverImgUrl("");
