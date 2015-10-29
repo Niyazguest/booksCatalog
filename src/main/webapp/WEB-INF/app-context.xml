@@ -20,9 +20,19 @@
     <context:annotation-config/>
     <context:component-scan base-package="ru.niyaz.test.serivce"/>
     <context:component-scan base-package="ru.niyaz.test.dao"/>
+    <!--<context:component-scan base-package="ru.niyaz.test.util"/>-->
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="ru.niyaz.test.entity"/>
+    </bean>
+
+    <bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+        <property name="url" value="jdbc:hsqldb:file:${env.CATALINA_HOME}\webapps\bookCatalog\WEB-INF\db\booksDb\books"/>
+        <property name="username" value="books" />
+        <property name="password" value="books" />
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
