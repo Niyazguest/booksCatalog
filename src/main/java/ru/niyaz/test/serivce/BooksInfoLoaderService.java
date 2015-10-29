@@ -37,7 +37,7 @@ public class BooksInfoLoaderService {
     @Autowired
     private BookDao bookDao;
 
-    @Scheduled(fixedDelay = 10900000)
+    @Scheduled(fixedDelay = 900000)
     public void loadBooksInfo() {
         int booksListPageNumber = 1;
         while (true) {
