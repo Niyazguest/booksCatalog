@@ -4,5 +4,3 @@
 lib/**
 target/**
 out/**
-booksDb/**
-hibernate.cfg.xml
